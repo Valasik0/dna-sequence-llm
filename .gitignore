@@ -1,3 +1,21 @@
+# Large genomic data files (should not be in git - use external storage)
+*.gz
+*.fna
+*.fa
+*.fastq
+*.bam
+*.sam
+
+# Trained models (large files - comment out if you want to version small models)
+*.pt
+*.pth
+*.model
+*.ckpt
+
+# Training outputs
+training_results.json
+*.log
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

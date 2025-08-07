@@ -4,6 +4,7 @@ import numpy as np
 from prepare_data import extract_chromosomes
 from models import MaskedLSTMGenerator, DNAModelTrainer
 from tokenizers import NucleotideTokenizer, KmerTokenizer
+import json
 
 # Nastavení reprodukovatelnosti
 SEED = 42
@@ -97,6 +98,23 @@ print(f"   🎯 Val Acc:    {results['final_val_acc']:.3f}")
 
 # Uložení výsledků
 trainer.save_results(results, "lstm_kmer_experiment_results.json")
+
+# Uložení tokenizeru
+tokenizer_data = {
+    'class': 'KmerTokenizer',
+    'k': tokenizer.k,
+    'min_frequency': getattr(tokenizer, 'min_frequency', 1),
+    'overlap': getattr(tokenizer, 'overlap', True),
+    'vocab': tokenizer.vocab,
+    'inverse_vocab': {str(k): v for k, v in tokenizer.inverse_vocab.items()},
+    'vocab_size': tokenizer.vocab_size,
+    'special_tokens': tokenizer.special_tokens
+}
+
+with open("lstm_kmer_tokenizer.json", 'w') as f:
+    json.dump(tokenizer_data, f, indent=2)
+
 print("\n💾 Model a výsledky uloženy!")
 print("   📄 lstm_kmer_experiment_results.json")
 print("   🧠 lstm_kmer_model.pt")
+print("   🔤 lstm_kmer_tokenizer.json")

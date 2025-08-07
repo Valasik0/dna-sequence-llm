@@ -74,10 +74,10 @@ trainer = DNAModelTrainer(model=model, tokenizer=tokenizer)
 
 results = trainer.train(
     sequence=train_seq,
-    num_epochs=10,
-    learning_rate=1e-3,
-    batch_size=32,
-    seq_length=85,      # Menší kvůli k-mer tokenizaci (256/3 ≈ 85)
+    num_epochs=3,
+    learning_rate=0.001,     # Snížený learning rate pro stabilitu
+    batch_size=32,          # Menší batch pro stabilitu
+    seq_length=85,          # Menší kvůli k-mer tokenizaci (256/3 ≈ 85)
     mask_prob=0.15,
     save_path="lstm_kmer_model.pt"
 )

@@ -69,3 +69,27 @@ class KmerTokenizer(DNATokenizer):
     def tokenize(self, sequence: str) -> List[str]:
         """Tokenizuje sekvenci na k-mery (pouze A,C,G,T)."""
         return self._extract_kmers(sequence)
+    
+    def mask_sequence(self, tokens: List[str], mask_prob: float = 0.15) -> tuple:
+        """
+        Maskuje náhodné k-mery v sekvenci.
+        
+        Args:
+            tokens: Seznam k-merů
+            mask_prob: Pravděpodobnost maskování každého k-meru
+            
+        Returns:
+            (masked_tokens, target_tokens): Tuple s maskovanými a originálními tokeny
+        """
+        import random
+        
+        masked_tokens = tokens.copy()
+        target_tokens = [-100] * len(tokens)  # -100 = ignore v CrossEntropyLoss
+        
+        for i, token in enumerate(tokens):
+            if random.random() < mask_prob:
+                # Maskuj tento k-mer
+                masked_tokens[i] = self.special_tokens['mask']
+                target_tokens[i] = self.vocab.get(token, self.vocab[self.special_tokens['unk']])
+        
+        return masked_tokens, target_tokens

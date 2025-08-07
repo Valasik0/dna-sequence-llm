@@ -85,7 +85,7 @@ results = trainer.train(
 
 # ====================== 6. TESTOVÁNÍ ======================
 print("\n🔍 Testování modelu s K-mer tokenizer...")
-trainer.test_prediction(test_seq, num_examples=10)
+trainer.test_prediction(test_seq, num_examples=25)
 
 # ====================== 7. VÝSLEDKY ======================
 print("\n📈 FINÁLNÍ VÝSLEDKY (LSTM + K-mer tokenizer):")

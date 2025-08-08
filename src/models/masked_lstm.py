@@ -59,6 +59,17 @@ class MaskedLSTMGenerator(MaskedLanguageModel):
         logits = self.output_projection(lstm_out)  # [batch, seq_len, vocab_size]
         
         return logits
+
+    def get_init_config(self):
+        """Konfig pro znovuvytvoření instance při načítání."""
+        return {
+            'vocab_size': self.vocab_size,
+            'embedding_dim': self.embedding_dim,
+            'hidden_dim': self.hidden_dim,
+            'num_layers': self.num_layers,
+            # dropout lze odvodit z lstm/constructoru; ponecháme výchozí bezpečný
+            'dropout': self.dropout.p if hasattr(self, 'dropout') else 0.0,
+        }
     
     def predict_masked(self, input_ids, mask_token_id, device='cpu'):
         """

@@ -1,4 +1,5 @@
 res/
+*.zip
 
 # Large genomic data files (should not be in git - use external storage)
 *.gz
